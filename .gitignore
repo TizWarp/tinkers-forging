@@ -6,6 +6,8 @@ bin
 .classpath
 .project
 
+alcatrazcore-1.0.0.jar
+
 # idea
 out
 *.ipr

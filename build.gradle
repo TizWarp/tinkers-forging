@@ -110,6 +110,15 @@ repositories {
 }
 
 dependencies {
+
+    compileOnly "curse.maven:jei-238222:5101347"
+    compileOnly "curse.maven:patchouli-306770:3162874"
+    compileOnly "curse.maven:crafttweaker-239197:5013567"
+
+    compileOnly(files("alcatrazcore-1.0.0.jar"))
+
+
+
     if (propertyBool('use_modern_java_syntax')) {
         annotationProcessor 'com.github.bsideup.jabel:jabel-javac-plugin:1.0.0'
         // Workaround for https://github.com/bsideup/jabel/issues/174
