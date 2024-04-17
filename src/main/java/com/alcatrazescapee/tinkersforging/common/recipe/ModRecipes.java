@@ -13,6 +13,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.alcatrazescapee.alcatrazcore.Tags;
+import com.alcatrazescapee.tinkersforging.TinkersForging;
+import com.alcatrazescapee.tinkersforging.integration.SpartanWeaponRecpies;
+import com.alcatrazescapee.tinkersforging.integration.SpartanWeaponRecpies.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,6 +45,7 @@ import com.alcatrazescapee.tinkersforging.util.material.MaterialType;
 import static com.alcatrazescapee.alcatrazcore.util.OreDictionaryHelper.UPPER_UNDERSCORE_TO_LOWER_CAMEL;
 import static com.alcatrazescapee.tinkersforging.TinkersForging.MOD_ID;
 
+
 @ParametersAreNonnullByDefault
 public class ModRecipes
 {
@@ -59,15 +64,6 @@ public class ModRecipes
 
                 if (!output.isEmpty() && inputOre != null && OreDictionary.doesOreNameExist(inputOre))
                     ANVIL.add(new AnvilRecipe(output, inputOre, ItemType.HAMMER_HEAD.getAmount(), material.getTier(), ItemType.HAMMER_HEAD.getRules()));
-            }
-
-            if (material.isEnabled()) {
-
-                ItemStack output = ItemToolHead.get(ItemType.GREATAXE_HEAD, material, 1);
-                String inputOre = UPPER_UNDERSCORE_TO_LOWER_CAMEL.convert("INGOT_" + material.getName());
-                if (!output.isEmpty() && inputOre != null && OreDictionary.doesOreNameExist(inputOre)) {
-                    ANVIL.add(new AnvilRecipe(output, inputOre, ItemType.GREATAXE_HEAD.getAmount(), material.getTier(), ItemType.HAMMER_HEAD.getRules()));
-                }
 
             }
         }
@@ -110,13 +106,92 @@ public class ModRecipes
                     {
                         ItemStack output = result.getValue();
 
-                        // register the anvil recipe
+                        // register the anvil recipeI
                         ANVIL.add(new AnvilRecipe(output.copy(), metalIngotName, type.getAmount(), material.getTier(), type.getRules()));
 
                         // un-register the old recipe
                         if (ModConfig.GENERAL.removeCraftingRecipes)
                             r.remove(result.getKey().getRegistryName());
                     }
+                }
+
+                //Spartan Weaponry
+
+                if (Loader.isModLoaded("spartanweaponry")) {
+
+                    //anvil recipes
+
+                    for(ItemType type : ItemType.getAllSpartanSmithables()) {
+
+                        ItemStack result = ItemToolHead.get(type, material, 1);
+                        ANVIL.add(new AnvilRecipe(result, metalIngotName, type.getAmount(), material.getTier(), type.getRules()));
+
+                        //material is lowercase
+
+                    }
+
+
+                    //weapon recipes
+                    for (SpartanWeaponRecpies type : SpartanWeaponRecpies.allNames()) {
+
+                        ResourceLocation loc = new ResourceLocation(Tags.MOD_ID, (material.getName() + "_" + type.name()).toLowerCase());
+
+
+
+                         ItemStack handle = new ItemStack(Item.getByNameOrId("spartanweaponry:material"),1,0);
+                         ItemStack pole = new ItemStack(Item.getByNameOrId("spartanweaponry:material"),1,1);
+                         ItemStack weapon = new ItemStack(Item.getByNameOrId("spartanweaponry:" + type.name() + "_" + material.getName()));
+
+                         //r.remove(weapon.getItem().getRegistryName());
+                         r.remove(new ResourceLocation("spartanweaponry:modded/" + type.name() + "_" + material.getName()));
+
+
+                         ItemStack guard = new ItemStack(Item.getByNameOrId("tinkersforging:" + type.name() + "_" + "guard" + "/" + material.getName()));
+                         ItemStack blade = new ItemStack(Item.getByNameOrId("tinkersforging:" + type.name() + "_" + "blade" + "/" + material.getName()));
+                         ItemStack head = new ItemStack(Item.getByNameOrId("tinkersforging:" + type.name() + "_" + "head" + "/" + material.getName()));
+                         ItemStack crossbow_wood = new ItemStack(Item.getByNameOrId("spartanweaponry:crossbow_wood"));
+                         ItemStack longbow_wood = new ItemStack(Item.getByNameOrId("bow"));
+
+
+                         if (SpartanWeaponRecpies.getSeperateHead(type)) {
+                             ResourceLocation loc2 = new ResourceLocation(Tags.MOD_ID, (material.getName() + "_" + type.name()).toLowerCase() + "_" + "head" );
+
+                             switch (type) {
+                                 case BATTLEAXE:
+                                     r.register(new ShapedOreRecipe(loc, head, "   ", "BGB", 'B', blade, 'G', guard).setRegistryName(loc2));;
+                                     break;
+                                 default:
+                                     r.register(new ShapedOreRecipe(loc, head, "BG", 'B', blade, 'G', guard).setRegistryName(loc2));
+                                     break;
+
+                             }
+
+
+                         }
+
+                         switch (SpartanWeaponRecpies.getHandle(type)) {
+                             case GUARD_BLADE:
+                                 r.register(new ShapedOreRecipe(loc, weapon, " B ", "GS ", "   ", 'S', handle, 'B', blade, 'G', guard).setRegistryName(loc));
+                                 break;
+                             case POLE:
+                                 r.register(new ShapedOreRecipe(loc, weapon, "H", "S", 'S', pole, 'H', head).setRegistryName(loc));
+                                 break;
+                             case HANDLE:
+                                 r.register(new ShapedOreRecipe(loc, weapon, "H", "S", 'S', handle, 'H', head).setRegistryName(loc));
+                                 break;
+                             case BOW:
+                                 r.register(new ShapedOreRecipe(loc, weapon, "   ", "BH ", 'B', longbow_wood, 'H', head).setRegistryName(loc));
+                                 break;
+                             case CROSSBOW:
+                                 r.register(new ShapedOreRecipe(loc, weapon, "   ", "BH ", 'B', crossbow_wood, 'H', head).setRegistryName(loc));
+                                 break;
+
+
+                         }
+
+                    }
+
+
                 }
 
                 // Vanilla Tools
@@ -132,6 +207,8 @@ public class ModRecipes
 
                             // register the tool part recipe
                             r.register(new ShapedOreRecipe(loc, result.getValue(), "H", "S", 'S', "stickWood", 'H', output).setRegistryName(loc));
+
+                            ANVIL.add(new AnvilRecipe(result.getValue(), metalIngotName, type.getAmount(), material.getTier(), type.getRules()));
 
                             // un-register the old recipe
                             if (ModConfig.GENERAL.removeCraftingRecipes)
@@ -254,8 +331,6 @@ public class ModRecipes
          */
         switch (type)
         {
-            case GREATAXE_HEAD:
-                return new int[] {0,4,8};
             case PICKAXE_HEAD:
                 return new int[] {0, 1, 2};
             case SHOVEL_HEAD:
@@ -278,5 +353,6 @@ public class ModRecipes
             default:
                 return new int[0];
         }
+
     }
 }

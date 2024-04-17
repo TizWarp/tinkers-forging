@@ -11,6 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -32,6 +33,8 @@ import com.alcatrazescapee.tinkersforging.common.recipe.ModRecipes;
 import com.alcatrazescapee.tinkersforging.util.forge.ForgeRule;
 import com.alcatrazescapee.tinkersforging.util.forge.ForgeStep;
 import com.alcatrazescapee.tinkersforging.util.forge.ForgeSteps;
+
+import java.util.Random;
 
 @ParametersAreNonnullByDefault
 public class TileTinkersAnvil extends TileInventory implements ITileFields
@@ -167,7 +170,7 @@ public class TileTinkersAnvil extends TileInventory implements ITileFields
             case SLOT_INPUT:
                 return stack.hasCapability(CapabilityForgeItem.CAPABILITY, null);
             case SLOT_HAMMER:
-                return CoreHelpers.doesStackMatchOre(stack, "hammer");
+                return CoreHelpers.doesStackMatchOre(stack, "hammer") || CoreHelpers.doesStackMatchOre(stack, "artisansHammer");
             default:
                 return false;
         }
@@ -224,6 +227,13 @@ public class TileTinkersAnvil extends TileInventory implements ITileFields
 
         if (cap != null)
         {
+
+            boolean shouldDamageHammer = inventory.getStackInSlot(SLOT_HAMMER).attemptDamageItem(1, new Random(13), (EntityPlayerMP) currentPlayer);
+
+            if (shouldDamageHammer) {
+                inventory.getStackInSlot(SLOT_HAMMER).damageItem(1, currentPlayer);
+            }
+
             // Add step to stack + tile
             cap.addStep(step);
             steps = cap.getSteps().copy();

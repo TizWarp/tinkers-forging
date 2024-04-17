@@ -114,7 +114,7 @@ dependencies {
     compileOnly "curse.maven:jei-238222:5101347"
     compileOnly "curse.maven:patchouli-306770:3162874"
     compileOnly "curse.maven:crafttweaker-239197:5013567"
-
+    compileOnly "curse.maven:spartan-278141:4467344"
     compileOnly(files("alcatrazcore-1.0.0.jar"))
 
 

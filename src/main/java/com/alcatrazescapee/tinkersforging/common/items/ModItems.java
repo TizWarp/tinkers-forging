@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.alcatrazescapee.alcatrazcore.util.RegistryHelper;
-import com.alcatrazescapee.tinkersforging.ModConfig;
 import com.alcatrazescapee.tinkersforging.util.ItemType;
 import com.alcatrazescapee.tinkersforging.util.material.MaterialRegistry;
 import com.alcatrazescapee.tinkersforging.util.material.MaterialType;
@@ -35,8 +34,25 @@ public class ModItems
 
             r.registerItem(new ItemHammer(material, toolMaterial), "hammer/" + material.getName());
             r.registerItem(new ItemToolHead(ItemType.HAMMER_HEAD, material), ItemType.HAMMER_HEAD.name() + "/" + material.getName());
-            r.registerItem(new ItemToolHead(ItemType.GREATAXE_HEAD, material), ItemType.GREATAXE_HEAD.name() + "/" + material.getName());
 
+            if (Loader.isModLoaded("spartanweaponry")) {
+
+
+                for (ItemType type : ItemType.getAllSpartanParts()) {
+                    r.registerItem(new ItemToolHead(type, material), type.name() + "/" + material.getName());
+                }
+
+
+
+
+            }
+
+
+            if (Loader.isModLoaded("artisanworktables")) {
+
+
+
+            }
         }
 
         r.registerItem(new ItemHammer(Item.ToolMaterial.WOOD), "hammer/wood", TAB_ITEMS);
