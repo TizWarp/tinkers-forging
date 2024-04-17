@@ -1,20 +1,26 @@
-## TemplateDevEnv
+# This is a fork of the the orignal mod. All credits go to the original author.
+## I have forked this mostly for my own modpack and will be adding compats that help that project. Pull requests are welcome.
 
-Template workspace for modding Minecraft 1.12.2. Licensed under MIT, it is made for public use.
 
-This template currently utilizies **Gradle 8.7** + **[RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle) 1.3.35** + **Forge 14.23.5.2847**.
+![Tinker's Forging Banner Image](https://github.com/alcatrazEscapee/tinkers-forging/blob/1.12/src/main/resources/assets/banner.png?raw=true)
 
-With **coremod and mixin support** that is easy to configure.
+A mod that adds TFC Style Forging to 1.12+
 
-### Instructions:
+**This mod has been discontinued. It will not be receiving updates or support!**
 
-1. Click `use this template` at the top.
-2. Clone the repository you have created with this template.
-3. In the local repository, run the command `gradlew setupDecompWorkspace`
-4. Open the project folder in IDEA.
-5. Right-click in IDEA `build.gradle` of your project, and select `Link Gradle Project`, after completion, hit `Refresh All` in the gradle tab on the right.
-6. Run `gradlew runClient` and `gradlew runServer`, or use the auto-imported run configurations in IntelliJ like `1. Run Client`.
+Author: AlcatrazEscapee
 
-### Mixins:
+This mod adds basic forging to the game. You must first acquire a Tinker's Anvil and Hammer - the basic tools of the trade. Then you will need to master heating items - either in a large open Charcoal Forge or a more conservative Brick Forge. When you heat ingots to the right temperature, they become Workable. Place them in an anvil and start hitting them to try and work them into shape. For detail about how forging works, see TerraFirmaCraft 1.7.10 forging rules.
 
-- When writing Mixins on IntelliJ, it is advisable to use latest [MinecraftDev Fork for RetroFuturaGradle](https://github.com/eigenraven/MinecraftDev/releases).
+This mod has a Guide Book which is provided by Patchouli. It has explicit compatibility with Tinker's Construct, Construct's Armory, JEI, and Craft Tweaker for all your modpack making shenanigans.
+
+### Content
+
+* The Tinker's Anvil - an anvil for all your forging needs
+* Tinker's Hammers in many modded metals
+* Charcoal Piles + Forge or a Brick Forge for heating up items
+* In game guide book provided by [Patchouli](https://minecraft.curseforge.com/projects/patchouli)
+* Explicit mod integration with Tinker's Construct and Construct's Armor
+* JEI and Craft Tweaker integration.
+
+![Splash Image](https://github.com/alcatrazEscapee/tinkers-forging/blob/1.12/src/main/resources/assets/splash.png?raw=true)
